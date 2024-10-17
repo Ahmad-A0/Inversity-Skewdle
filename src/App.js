@@ -112,9 +112,10 @@ export default function SkewdleGame() {
 
   return (
     <div className="min-h-screen bg-[#f7ede2] p-6 font-sans">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-4xl font-bold mb-2 text-black font-serif">Skewdle</h1>
-        <p className="text-lg text-gray-600 mb-6">Identify inaccuracies in news articles</p>
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-6xl font-bold mb-4 text-[#005f56] font-serif">Skewdle</h1>
+        <p className="text-xl text-gray-600 mb-8">Identify inaccuracies in news articles</p>
+        <div className="bg-white rounded-lg shadow-lg p-8">
 
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
           <div className="flex">
