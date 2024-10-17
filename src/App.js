@@ -36,6 +36,7 @@ export default function SkewdleGame() {
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
   const [gameStatus, setGameStatus] = useState('idle');
   const [selectedParts, setSelectedParts] = useState({});
+  const [incorrectSelection, setIncorrectSelection] = useState(false);
 
   useEffect(() => {
     setArticleParts(parseArticleText(sampleText));
@@ -73,7 +74,13 @@ export default function SkewdleGame() {
       ...prev,
       [part.id]: isCorrect
     }));
-  }, [gameStatus, selectedParts]);
+
+    if (!isCorrect) {
+      setIncorrectSelection(true);
+      setTimeout(() => setIncorrectSelection(false), 1000);
+      setTimeLeft(prevTime => Math.max(0, prevTime - 20));
+    }
+  }, [gameStatus, selectedParts, setTimeLeft]);
 
   const renderArticle = useMemo(() => {
     return articleParts.map((part) => {
@@ -111,7 +118,7 @@ export default function SkewdleGame() {
   }, [articleParts, selectedParts, handleTextSelection]);
 
   return (
-    <div className="min-h-screen bg-[#f7ede2] p-6 font-sans">
+    <div className={`min-h-screen bg-[#f7ede2] p-6 font-sans ${incorrectSelection ? 'pulse-red' : ''}`}>
       <div className="max-w-3xl mx-auto">
         <h1 className="text-6xl font-bold mb-4 text-[#005f56] font-serif">Skewdle</h1>
         <p className="text-xl text-gray-600 mb-8">Identify inaccuracies in news articles</p>
@@ -134,7 +141,7 @@ export default function SkewdleGame() {
           <div className="text-lg font-semibold text-[#005f56]">
             Score: {score}
           </div>
-          <div className="text-lg font-semibold text-[#0A5E66]">
+          <div className={`text-lg font-semibold ${incorrectSelection ? 'text-red-500' : 'text-[#0A5E66]'}`}>
             Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
           </div>
         </div>
