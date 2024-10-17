@@ -141,7 +141,7 @@ export default function SkewdleGame() {
           <div className="text-lg font-semibold text-[#005f56]">
             Score: {score}
           </div>
-          <div className={`text-2xl font-semibold ${incorrectSelection ? 'text-red-500 shake' : 'text-[#0A5E66]'}`}>
+          <div className={`text-2xl font-semibold ${incorrectSelection ? 'text-red-500 shake scale-up' : 'text-[#0A5E66]'}`}>
             Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
           </div>
         </div>

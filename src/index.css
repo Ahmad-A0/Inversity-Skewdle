@@ -102,6 +102,22 @@ code {
   }
 }
 
+@keyframes scale-up {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.scale-up {
+  animation: scale-up 0.5s;
+}
+
 .pulse-red {
   animation: pulse 1s infinite;
 }
