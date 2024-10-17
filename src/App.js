@@ -140,7 +140,7 @@ export default function SkewdleGame() {
 
         {/* Article Container */}
         <div className="mb-6">
-          <div className="text-xl leading-relaxed text-[#1f1f1f]">
+          <div className="text-2xl leading-8 text-[#1f1f1f]">
             {renderArticle}
           </div>
         </div>
