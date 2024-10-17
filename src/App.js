@@ -93,7 +93,7 @@ export default function SkewdleGame() {
       return (
         <span
           key={part.id}
-          className={className}
+          className={`${className} mb-1`}
           onClick={() => handleTextSelection(part)}
           role="button"
           aria-pressed={part.id in selectedParts}
