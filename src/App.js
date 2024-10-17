@@ -81,7 +81,7 @@ export default function SkewdleGame() {
         return <span key={part.id}>{part.content}</span>;
       }
 
-      let className = 'inline-block px-1 py-0.5 rounded-md transition-all duration-200 ';
+      let className = 'inline-block px-0.5 py-0.25 rounded-md transition-all duration-200 ';
       className += 'bg-gray-100 hover:bg-gray-200 hover:scale-105 hover:z-10 ';
 
       if (part.id in selectedParts) {
