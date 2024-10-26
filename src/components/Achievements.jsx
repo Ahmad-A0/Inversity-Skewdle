@@ -6,7 +6,7 @@ import {
     Trophy,
     Star, Medal,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 
 export function Achievements({achievements}) {
     return (
@@ -15,7 +15,7 @@ export function Achievements({achievements}) {
                 <CardTitle>Achievements</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="space-y-4">
+                <div role="list" className="space-y-4">
                     {[
                         {
                             id: 'firstGame',
@@ -79,6 +79,12 @@ export function Achievements({achievements}) {
                     ].map((achievement) => (
                         <div
                             key={achievement.id}
+                            role="listitem"
+                            aria-label={
+                                achievements[achievement.id]
+                                    ? `Achievement ${achievement.name} unlocked`
+                                    : `Achievement ${achievement.name} locked`
+                            }
                             className={`flex items-center gap-3 p-2 rounded-lg ${
                                 achievements[achievement.id]
                                     ? 'bg-gray-800'

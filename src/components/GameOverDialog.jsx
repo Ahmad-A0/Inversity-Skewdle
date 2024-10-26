@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    Share2, Trophy,
-} from 'lucide-react';
+import { Share2, Trophy, ExternalLink } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from 'src/components/ui/alert';
 import {
     Dialog,
@@ -17,14 +15,23 @@ const DIFFICULTY_SETTINGS = {
     hard: { time: 120, penaltyTime: 30, scoreMultiplier: 2 },
 };
 
-export function GameOverDialog({gameStatus, score, difficulty, currentStreak, currentLevel, achievements, startGame, articles}) {
-    const levelArticles = articles
+export function GameOverDialog({
+    gameStatus,
+    score,
+    difficulty,
+    currentStreak,
+    currentLevel,
+    achievements,
+    startGame,
+    articles,
+}) {
+    const levelArticles = articles;
 
     return (
         <Dialog open={gameStatus === 'ended'}>
             <DialogContent className="bg-[#1f2335] text-gray-200 border-gray-700">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-center">
+                    <DialogTitle aria-label="Game Over Dialog" className="text-2xl font-bold text-center">
                         Game Over!
                     </DialogTitle>
                 </DialogHeader>
@@ -45,9 +52,7 @@ export function GameOverDialog({gameStatus, score, difficulty, currentStreak, cu
                             <div className="text-xl font-bold">
                                 {currentStreak}
                             </div>
-                            <div className="text-gray-400">
-                                Final Streak
-                            </div>
+                            <div className="text-gray-400">Final Streak</div>
                         </div>
                         <div>
                             <div className="text-xl font-bold">
@@ -63,20 +68,18 @@ export function GameOverDialog({gameStatus, score, difficulty, currentStreak, cu
                     {Object.entries(achievements)
                         .filter(
                             ([id, unlocked]) =>
-                                unlocked &&
-                                !localStorage.getItem(`shown-${id}`)
+                                unlocked && !localStorage.getItem(`shown-${id}`)
                         )
                         .map(([id, _]) => {
                             localStorage.setItem(`shown-${id}`, 'true');
                             return (
                                 <Alert
                                     key={id}
+                                    role="alert"
                                     className="bg-gray-800 border-amber-400"
                                 >
                                     <Trophy className="text-amber-400" />
-                                    <AlertTitle>
-                                        New Achievement!
-                                    </AlertTitle>
+                                    <AlertTitle>New Achievement!</AlertTitle>
                                     <AlertDescription>
                                         You've unlocked "{id}"
                                     </AlertDescription>
@@ -89,24 +92,29 @@ export function GameOverDialog({gameStatus, score, difficulty, currentStreak, cu
                         {levelArticles.map((article) => (
                             <a
                                 key={article.id}
-                                href={`https://www.ft.com/content/${article.id}`}
+                                href={article.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
                             >
-                                Read Article {article.id}
+                                <div className="flex items-center justify-between">
+                                    <span>{article.title}</span>
+                                    <ExternalLink size={16} className="text-gray-400" />
+                                </div>
                             </a>
                         ))}
                     </div>
 
                     <div className="flex gap-4">
                         <button
+                            aria-label="Play Again"
                             onClick={startGame}
                             className="flex-1 py-2 bg-[#7aa2f7] text-gray-900 rounded-lg font-bold hover:bg-[#5d7bc5] transition-colors"
                         >
                             Play Again
                         </button>
                         <button
+                            aria-label="Copy Score to Clipboard"
                             onClick={() => {
                                 const text = `I scored ${Math.floor(
                                     score *
@@ -123,5 +131,5 @@ export function GameOverDialog({gameStatus, score, difficulty, currentStreak, cu
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

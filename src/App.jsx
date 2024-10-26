@@ -16,10 +16,17 @@ import {
     HelpCircle,
     ArrowLeftCircle,
     Star,
+    Moon,
+    Sun,
 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from 'src/components/ui/alert';
 import { Progress } from 'src/components/ui/progress';
-import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from 'src/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -31,6 +38,7 @@ import { Game } from './components/Game';
 import { GameOverDialog } from './components/GameOverDialog';
 import { Stats } from './components/Stats';
 import { Achievements } from './components/Achievements';
+import { Leaderboard } from './components/Leaderboard';
 import { TutorialDialog } from './components/TutorialDialog';
 import { ArticleText } from './components/ArticleText';
 
@@ -45,21 +53,35 @@ const DIFFICULTY_SETTINGS = {
 const ARTICLES = [
     {
         id: 1,
-        text: `(Last week) McDonalds corporation bought [starbucks] for ($2 million). The [CEO] of McDonalds said the purchase was [finger lickin' good].`,
+        title: "Tech Giants Reshape Silicon Valley's Real Estate Market",
+        text: `(Apple Inc) has announced plans to convert its ($16 billion) campus into shared workspace. The [Google-owned] property will feature [underwater meeting rooms] and (automated robot security) by next quarter. The company's [CEO Tim Cook] cited [decreasing office demand] as the primary motivation.`,
         difficulty: 'easy',
-        category: 'business',
+        category: 'technology',
+        link: 'https://www.ft.com/content/tech-giants-reshape-valley',
     },
     {
         id: 2,
-        text: `Scientists at [NASA] have discovered ($life on Venus) using their newest [quantum telescope]. The [alien bacteria] were observed [dancing] under the clouds.`,
+        title: 'Revolutionary Breakthrough in Sustainable Aviation',
+        text: `British Airways has successfully tested (algae-based jet fuel) in a (commercial flight from London to New York). The [solar-powered] aircraft achieved [supersonic speeds] while reducing emissions by [95%]. The (£2.3 billion) project marks a significant milestone in green aviation.`,
         difficulty: 'medium',
         category: 'science',
+        link: 'https://www.ft.com/content/sustainable-aviation-breakthrough',
     },
     {
         id: 3,
-        text: `In sports news, [Michael Jordan] has come out of retirement to join the (Los Angeles Lakers) for a record [billion dollar] contract. The [90-year-old] athlete says he's in peak condition.`,
+        title: 'Global Financial Markets Face Historic Shift',
+        text: `The [European Central Bank] has announced a partnership with [Amazon] to launch a (digital Euro) by [2024]. The unprecedented move saw (Switzerland's stock market) suspend trading for (72 hours) while [crypto markets] experienced [1000%] growth. [Christine Lagarde] called it "the future of banking."`,
         difficulty: 'hard',
-        category: 'sports',
+        category: 'finance',
+        link: 'https://www.ft.com/content/global-markets-shift',
+    },
+    {
+        id: 4,
+        title: 'Art Market Disruption: Traditional Galleries Face Digital Revolution',
+        text: `The (Louvre Museum) has generated (€300 million) through its first [blockchain-based] art auction. The [AI-created] masterpieces sold for [triple] the price of traditional artwork. Leading galleries are now [replacing physical locations] with (virtual reality exhibitions) that attracted (2.3 million visitors) last month.`,
+        difficulty: 'medium',
+        category: 'arts',
+        link: 'https://www.ft.com/content/art-market-disruption',
     },
 ];
 
@@ -249,7 +271,6 @@ export default function SkewdleGame() {
                         setSelectedParts({}); // Reset selectedParts when moving to the next level
                     }
                 }
-
             } else {
                 setScore((prevScore) => Math.max(0, prevScore - 1));
                 setCurrentStreak(0);
@@ -277,24 +298,28 @@ export default function SkewdleGame() {
         ]
     );
 
-    
-
     return (
         <div
             className={`min-h-screen bg-[#1a1b26] text-gray-200 p-6 font-sans ${
                 incorrectSelection ? 'animate-shake' : ''
             }`}
+            aria-label="Skewdle Game"
+            data-testid="app-container"
         >
             <div className="max-w-4xl mx-auto mt-2">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-6xl font-bold text-[#7aa2f7] font-serif transition duration-500 hover:transform hover:rotate-6">
+                    <h1
+                        className="text-6xl font-bold text-[#7aa2f7] font-serif transition duration-500 hover:transform hover:rotate-6"
+                        aria-label="Skewdle Game Title"
+                    >
                         Skewdle
                     </h1>
                     <div className="flex gap-4">
                         <button
                             onClick={() => setSoundEnabled(!soundEnabled)}
                             className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                            aria-label="Toggle Sound"
                         >
                             {soundEnabled ? (
                                 <Volume2 size={24} />
@@ -303,16 +328,28 @@ export default function SkewdleGame() {
                             )}
                         </button>
                         <Dialog>
-                            <DialogTrigger>
+                            <DialogTrigger aria-label="Open Help Dialog">
                                 <HelpCircle size={24} />
                             </DialogTrigger>
                             <DialogContent className="bg-[#1f2335] text-gray-200 border-gray-700">
                                 <DialogHeader>
                                     <DialogTitle>How to Play</DialogTitle>
                                 </DialogHeader>
-                                <TutorialDialog showTutorial={showTutorial} setShowTutorial={setShowTutorial} />
+                                <TutorialDialog
+                                    showTutorial={showTutorial}
+                                    setShowTutorial={setShowTutorial}
+                                />
                             </DialogContent>
                         </Dialog>
+                        <button
+                            onClick={() =>
+                                console.log('Dark mode button clicked')
+                            }
+                            className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                            aria-label="Toggle Dark Mode"
+                        >
+                            <Moon size={24} />
+                        </button>
                     </div>
                 </div>
 
@@ -327,19 +364,45 @@ export default function SkewdleGame() {
                     startGame={startGame}
                     handleTextSelection={handleTextSelection}
                     selectedParts={selectedParts}
+                    aria-label="Game Area"
                 />
 
-                {/* Stats & Achievements */}
-                <div className="grid grid-cols-2 gap-6">
-                    <Stats bestStreak={bestStreak} totalGamesPlayed={totalGamesPlayed} highScores={highScores} currentStreak={currentStreak} />
+                {/* Stats, Achievements & Leaderboard */}
+                <div
+                    className="grid grid-cols-2 gap-6 mb-6"
+                    aria-label="Game Stats and Achievements"
+                >
+                    <Stats
+                        bestStreak={bestStreak}
+                        totalGamesPlayed={totalGamesPlayed}
+                        highScores={highScores}
+                        currentStreak={currentStreak}
+                    />
                     <Achievements achievements={achievements} />
+                </div>
+                <div className="mb-6" aria-label="Leaderboard">
+                    <Leaderboard highScores={highScores} />
                 </div>
 
                 {/* Game Over Dialog */}
-                <GameOverDialog gameStatus={gameStatus} score={score} difficulty={difficulty} currentStreak={currentStreak} currentLevel={currentLevel} achievements={achievements} startGame={startGame} articles={ARTICLES} />
+                <GameOverDialog
+                    gameStatus={gameStatus}
+                    score={score}
+                    difficulty={difficulty}
+                    currentStreak={currentStreak}
+                    currentLevel={currentLevel}
+                    achievements={achievements}
+                    startGame={startGame}
+                    articles={ARTICLES}
+                    aria-label="Game Over Dialog"
+                />
 
                 {/* Tutorial Dialog */}
-                <TutorialDialog showTutorial={showTutorial && gameStatus === 'idle'} setShowTutorial={setShowTutorial} />
+                <TutorialDialog
+                    showTutorial={showTutorial && gameStatus === 'idle'}
+                    setShowTutorial={setShowTutorial}
+                    aria-label="Tutorial Dialog"
+                />
             </div>
         </div>
     );

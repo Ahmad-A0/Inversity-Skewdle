@@ -15,22 +15,36 @@ const DIFFICULTY_SETTINGS = {
 const ARTICLES = [
     {
         id: 1,
-        text: `(Last week) McDonalds corporation bought [starbucks] for ($2 million). The [CEO] of McDonalds said the purchase was [finger lickin' good].`,
+        title: "Tech Giants Reshape Silicon Valley's Real Estate Market",
+        text: `(Apple Inc) has announced plans to convert its ($16 billion) campus into shared workspace. The [Google-owned] property will feature [underwater meeting rooms] and (automated robot security) by next quarter. The company's [CEO Tim Cook] cited [decreasing office demand] as the primary motivation.`,
         difficulty: 'easy',
-        category: 'business',
+        category: 'technology',
+        link: 'https://www.ft.com/content/tech-giants-reshape-valley'
     },
     {
         id: 2,
-        text: `Scientists at [NASA] have discovered ($life on Venus) using their newest [quantum telescope]. The [alien bacteria] were observed [dancing] under the clouds.`,
+        title: "Revolutionary Breakthrough in Sustainable Aviation",
+        text: `British Airways has successfully tested (algae-based jet fuel) in a (commercial flight from London to New York). The [solar-powered] aircraft achieved [supersonic speeds] while reducing emissions by [95%]. The (£2.3 billion) project marks a significant milestone in green aviation.`,
         difficulty: 'medium',
         category: 'science',
+        link: 'https://www.ft.com/content/sustainable-aviation-breakthrough'
     },
     {
         id: 3,
-        text: `In sports news, [Michael Jordan] has come out of retirement to join the ($Los Angeles Lakers) for a record [billion dollar] contract. The [90-year-old] athlete says he's in peak condition.`,
+        title: "Global Financial Markets Face Historic Shift",
+        text: `The [European Central Bank] has announced a partnership with [Amazon] to launch a (digital Euro) by [2024]. The unprecedented move saw (Switzerland's stock market) suspend trading for (72 hours) while [crypto markets] experienced [1000%] growth. [Christine Lagarde] called it "the future of banking."`,
         difficulty: 'hard',
-        category: 'sports',
+        category: 'finance',
+        link: 'https://www.ft.com/content/global-markets-shift'
     },
+    {
+        id: 4,
+        title: "Art Market Disruption: Traditional Galleries Face Digital Revolution",
+        text: `The (Louvre Museum) has generated (€300 million) through its first [blockchain-based] art auction. The [AI-created] masterpieces sold for [triple] the price of traditional artwork. Leading galleries are now [replacing physical locations] with (virtual reality exhibitions) that attracted (2.3 million visitors) last month.`,
+        difficulty: 'medium',
+        category: 'arts',
+        link: 'https://www.ft.com/content/art-market-disruption'
+    }
 ];
 
 const parseArticleText = (text) => {
@@ -95,7 +109,11 @@ export function Game({
                         </div>
                     </div>
                     <div className="text-right">
-                        <div className="text-3xl font-bold">
+                        <div aria-label={`Current score: ${Math.floor(
+                                score *
+                                    DIFFICULTY_SETTINGS[difficulty]
+                                        .scoreMultiplier
+                            )}`} className="text-3xl font-bold">
                             {Math.floor(
                                 score *
                                     DIFFICULTY_SETTINGS[difficulty]
@@ -109,8 +127,8 @@ export function Game({
             <CardContent>
                 {/* Timer */}
                 <div className="mb-4">
-                    <Progress value={progress} className="bg-gray-700" />
-                    <div className="text-center mt-2">
+                    <Progress role="progressbar" value={progress} className="bg-gray-700" />
+                    <div aria-live="polite" className="text-center mt-2">
                         {Math.floor(timeLeft / 60)}:
                         {String(timeLeft % 60).padStart(2, '0')}
                     </div>
@@ -133,6 +151,7 @@ export function Game({
                             {Object.keys(DIFFICULTY_SETTINGS).map((diff) => (
                                 <button
                                     key={diff}
+                                    aria-label={`Select ${diff} difficulty`}
                                     onClick={() => setDifficulty(diff)}
                                     className={`px-4 py-2 rounded-lg ${
                                         difficulty === diff
@@ -146,6 +165,7 @@ export function Game({
                             ))}
                         </div>
                         <button
+                            aria-label="Start Game"
                             onClick={startGame}
                             className="w-full py-3 bg-[#7aa2f7] text-gray-900 rounded-lg font-bold text-lg hover:bg-[#5d7bc5] transition-colors"
                         >

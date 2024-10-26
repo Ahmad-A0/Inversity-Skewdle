@@ -9,7 +9,7 @@ export function ArticleText({articleParts, selectedParts, handleTextSelection, g
     const renderArticle = useMemo(() => {
         return articleParts.map((part) => {
             if (part.type === 'normal') {
-                return <span key={part.id} className="text-gray-200">{part.content}</span>;
+                return <span key={part.content} className="text-gray-200">{part.content}</span>;
             }
 
             let className = `
@@ -31,6 +31,7 @@ export function ArticleText({articleParts, selectedParts, handleTextSelection, g
                     onClick={() => handleTextSelection(part)}
                     role="button"
                     aria-pressed={part.id in selectedParts}
+                    aria-label={`Select ${part.content}`}
                     tabIndex={0}
                 >
                     {part.content}
@@ -52,8 +53,9 @@ export function ArticleText({articleParts, selectedParts, handleTextSelection, g
     }, [articleParts, selectedParts, handleTextSelection]);
 
     return (
-        <div className={`text-2xl leading-relaxed mb-6 ${gameStatus === 'idle' ? 'blur-sm' : ''}`}>
+        <div aria-describedby="article-description" className={`text-2xl leading-relaxed mb-6 ${gameStatus === 'idle' ? 'blur-sm' : ''}`}>
             {renderArticle}
+            <p id="article-description" className="hidden">This is the article text.</p>
         </div>
     )
 }
