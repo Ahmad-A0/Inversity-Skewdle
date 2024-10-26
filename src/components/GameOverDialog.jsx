@@ -2,13 +2,13 @@ import React from 'react';
 import {
     Share2, Trophy,
 } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from 'src/components/ui/alert';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from '@/components/ui/dialog';
+} from 'src/components/ui/dialog';
 
 // Game difficulty settings
 const DIFFICULTY_SETTINGS = {
@@ -17,7 +17,9 @@ const DIFFICULTY_SETTINGS = {
     hard: { time: 120, penaltyTime: 30, scoreMultiplier: 2 },
 };
 
-export function GameOverDialog({gameStatus, score, difficulty, currentStreak, currentLevel, achievements, startGame}) {
+export function GameOverDialog({gameStatus, score, difficulty, currentStreak, currentLevel, achievements, startGame, articles}) {
+    const levelArticles = articles
+
     return (
         <Dialog open={gameStatus === 'ended'}>
             <DialogContent className="bg-[#1f2335] text-gray-200 border-gray-700">
@@ -81,6 +83,21 @@ export function GameOverDialog({gameStatus, score, difficulty, currentStreak, cu
                                 </Alert>
                             );
                         })}
+
+                    {/* Article Links */}
+                    <div className="space-y-2">
+                        {levelArticles.map((article) => (
+                            <a
+                                key={article.id}
+                                href={`https://www.ft.com/content/${article.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
+                            >
+                                Read Article {article.id}
+                            </a>
+                        ))}
+                    </div>
 
                     <div className="flex gap-4">
                         <button

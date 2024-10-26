@@ -17,16 +17,16 @@ import {
     ArrowLeftCircle,
     Star,
 } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from 'src/components/ui/alert';
+import { Progress } from 'src/components/ui/progress';
+import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
+} from 'src/components/ui/dialog';
 import { Game } from './components/Game';
 import { GameOverDialog } from './components/GameOverDialog';
 import { Stats } from './components/Stats';
@@ -57,7 +57,7 @@ const ARTICLES = [
     },
     {
         id: 3,
-        text: `In sports news, [Michael Jordan] has come out of retirement to join the ($Los Angeles Lakers) for a record [billion dollar] contract. The [90-year-old] athlete says he's in peak condition.`,
+        text: `In sports news, [Michael Jordan] has come out of retirement to join the (Los Angeles Lakers) for a record [billion dollar] contract. The [90-year-old] athlete says he's in peak condition.`,
         difficulty: 'hard',
         category: 'sports',
     },
@@ -181,6 +181,7 @@ export default function SkewdleGame() {
         setCurrentArticleIndex(0);
         setCurrentStreak(0);
         setTotalGamesPlayed((prev) => prev + 1);
+        setCurrentLevel(1); // Reset current level when starting a new game
 
         // First game achievement
         if (!achievements.firstGame) {
@@ -231,6 +232,24 @@ export default function SkewdleGame() {
                 setCurrentStreak((prev) => prev + 1);
                 setBestStreak((prev) => Math.max(prev, currentStreak + 1));
                 if (soundEnabled) sounds.correct.play();
+
+                // Check if all incorrect parts are found in current article
+                const allIncorrectFound = articleParts
+                    .filter((p) => p.type === 'incorrect')
+                    .every((p) => selectedParts[p.id] || p.id === part.id); // Check if the current part is the last incorrect one
+
+                if (allIncorrectFound) {
+                    if (currentArticleIndex === ARTICLES.length - 1) {
+                        // All levels completed, end the game
+                        endGame();
+                    } else {
+                        // Move to the next level
+                        setCurrentArticleIndex((prev) => prev + 1);
+                        setCurrentLevel((prev) => prev + 1);
+                        setSelectedParts({}); // Reset selectedParts when moving to the next level
+                    }
+                }
+
             } else {
                 setScore((prevScore) => Math.max(0, prevScore - 1));
                 setCurrentStreak(0);
@@ -246,16 +265,6 @@ export default function SkewdleGame() {
                 ...prev,
                 [part.id]: isCorrect,
             }));
-
-            // Check if all incorrect parts are found in current article
-            const allFound = articleParts
-                .filter((p) => p.type === 'incorrect')
-                .every((p) => selectedParts[p.id]);
-
-            if (allFound) {
-                setCurrentArticleIndex((prev) => (prev + 1) % ARTICLES.length);
-                setCurrentLevel((prev) => prev + 1);
-            }
         },
         [
             gameStatus,
@@ -264,53 +273,11 @@ export default function SkewdleGame() {
             currentStreak,
             soundEnabled,
             articleParts,
+            currentArticleIndex,
         ]
     );
 
-    const renderArticle = useMemo(() => {
-        return articleParts.map((part) => {
-            if (part.type === 'normal') {
-                return <span key={part.id} className="text-gray-200">{part.content}</span>;
-            }
-
-            let className = `
-        inline-block px-2 py-1 rounded-md transition-all duration-200 
-        cursor-pointer select-none
-        bg-gray-700 hover:bg-gray-600 hover:scale-105 hover:z-10 text-gray-200
-      `;
-
-            if (part.id in selectedParts) {
-                className += selectedParts[part.id]
-                    ? ' bg-green-900 hover:bg-green-800'
-                    : ' bg-red-900 hover:bg-red-800';
-            }
-
-            return (
-                <span
-                    key={part.id}
-                    className={`${className} mb-1`}
-                    onClick={() => handleTextSelection(part)}
-                    role="button"
-                    aria-pressed={part.id in selectedParts}
-                    tabIndex={0}
-                >
-                    {part.content}
-                    {part.id in selectedParts &&
-                        (selectedParts[part.id] ? (
-                            <CheckCircle
-                                className="inline-block ml-1 text-green-400"
-                                size={16}
-                            />
-                        ) : (
-                            <X
-                                className="inline-block ml-1 text-red-400"
-                                size={16}
-                            />
-                        ))}
-                </span>
-            );
-        });
-    }, [articleParts, selectedParts, handleTextSelection]);
+    
 
     return (
         <div
@@ -321,7 +288,7 @@ export default function SkewdleGame() {
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-6xl font-bold text-[#7aa2f7] font-serif">
+                    <h1 className="text-6xl font-bold text-[#7aa2f7] font-serif transition duration-500 hover:transform hover:rotate-6">
                         Skewdle
                     </h1>
                     <div className="flex gap-4">
@@ -356,9 +323,10 @@ export default function SkewdleGame() {
                     score={score}
                     timeLeft={timeLeft}
                     difficulty={difficulty}
+                    setDifficulty={setDifficulty}
                     startGame={startGame}
                     handleTextSelection={handleTextSelection}
-                    renderArticle={<ArticleText articleParts={articleParts} selectedParts={selectedParts} handleTextSelection={handleTextSelection} />}
+                    selectedParts={selectedParts}
                 />
 
                 {/* Stats & Achievements */}
@@ -368,7 +336,7 @@ export default function SkewdleGame() {
                 </div>
 
                 {/* Game Over Dialog */}
-                <GameOverDialog gameStatus={gameStatus} score={score} difficulty={difficulty} currentStreak={currentStreak} currentLevel={currentLevel} achievements={achievements} startGame={startGame} />
+                <GameOverDialog gameStatus={gameStatus} score={score} difficulty={difficulty} currentStreak={currentStreak} currentLevel={currentLevel} achievements={achievements} startGame={startGame} articles={ARTICLES} />
 
                 {/* Tutorial Dialog */}
                 <TutorialDialog showTutorial={showTutorial && gameStatus === 'idle'} setShowTutorial={setShowTutorial} />

@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 
-export function ArticleText({articleParts, selectedParts, handleTextSelection}) {
+export function ArticleText({articleParts, selectedParts, handleTextSelection, gameStatus}) {
     const renderArticle = useMemo(() => {
         return articleParts.map((part) => {
             if (part.type === 'normal') {
@@ -52,7 +52,7 @@ export function ArticleText({articleParts, selectedParts, handleTextSelection}) 
     }, [articleParts, selectedParts, handleTextSelection]);
 
     return (
-        <div className="text-2xl leading-relaxed mb-6">
+        <div className={`text-2xl leading-relaxed mb-6 ${gameStatus === 'idle' ? 'blur-sm' : ''}`}>
             {renderArticle}
         </div>
     )
