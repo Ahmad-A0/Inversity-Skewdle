@@ -6,12 +6,10 @@
 
 body {
     margin: 0;
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
+    font-family: 'Georgia', serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    @apply bg-gray-900 text-gray-100;
+    @apply bg-ft-background text-ft-text;
 }
 
 .pulse-red {
@@ -20,22 +18,19 @@ body {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 0 0 rgba(254, 95, 149, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+    box-shadow: 0 0 0 10px rgba(254, 95, 149, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(254, 95, 149, 0);
   }
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-}
-
-.font-serif {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Georgia', serif;
+    @apply text-ft-black font-bold;
 }
 
 code {
@@ -43,15 +38,9 @@ code {
         monospace;
 }
 
-/* Existing color scales and utility classes */
-
-/* Add some custom utility classes */
+/* Custom utility classes */
 .text-gradient {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500;
-}
-
-.bg-gradient {
-    @apply bg-gradient-to-r from-purple-500 to-blue-500;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-ft-pink to-ft-black;
 }
 
 .hover-lift {
@@ -62,34 +51,7 @@ code {
     transform: translateY(-5px);
 }
 
-.color-scale-1 { fill: #8B5CF6; }
-.color-scale-2 { fill: #7C3AED; }
-.color-scale-3 { fill: #6D28D9; }
-.color-scale-4 { fill: #5B21B6; }
-.color-scale-5 { fill: #4C1D95; }
-
-/* Add some custom utility classes */
-.text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.gradient-bg {
-    background: linear-gradient(45deg, #8B5CF6, #3B82F6);
-}
-
-.hover-lift {
-    transition: transform 0.2s ease-in-out;
-}
-
-.hover-lift:hover {
-    transform: translateY(-5px);
-}
-
-/* New styles for the timer and pulse effect */
-.shake {
-  animation: shake 0.5s;
-}
-
+/* Animation keyframes */
 @keyframes shake {
   0%, 100% {
     transform: rotate(0);
@@ -118,26 +80,14 @@ code {
   animation: scale-up 0.5s;
 }
 
-.pulse-red {
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
-  }
+.shake {
+  animation: shake 0.5s;
 }
 
 .bg-secondary {
-    background-color: #6c757d;
+    @apply bg-ft-gray;
 }
 
 .bg-primary {
-    background-color: #7aa2f7;
+    @apply bg-ft-pink;
 }

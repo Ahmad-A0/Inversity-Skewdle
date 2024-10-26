@@ -181,9 +181,8 @@ export default function SkewdleGame() {
         setCurrentArticleIndex(0);
         setCurrentStreak(0);
         setTotalGamesPlayed((prev) => prev + 1);
-        setCurrentLevel(1); // Reset current level when starting a new game
+        setCurrentLevel(1);
 
-        // First game achievement
         if (!achievements.firstGame) {
             unlockAchievement('firstGame');
         }
@@ -193,7 +192,6 @@ export default function SkewdleGame() {
         setGameStatus('ended');
         if (soundEnabled) sounds.gameOver.play();
 
-        // Update high scores
         const finalScore =
             score * DIFFICULTY_SETTINGS[difficulty].scoreMultiplier;
         if (finalScore > highScores[difficulty]) {
@@ -203,7 +201,6 @@ export default function SkewdleGame() {
             }));
         }
 
-        // Check achievements
         if (score > 100) unlockAchievement('marathoner');
         if (currentStreak > 10) unlockAchievement('sharpEye');
         if (timeLeft > DIFFICULTY_SETTINGS[difficulty].time / 2)
@@ -233,20 +230,17 @@ export default function SkewdleGame() {
                 setBestStreak((prev) => Math.max(prev, currentStreak + 1));
                 if (soundEnabled) sounds.correct.play();
 
-                // Check if all incorrect parts are found in current article
                 const allIncorrectFound = articleParts
                     .filter((p) => p.type === 'incorrect')
-                    .every((p) => selectedParts[p.id] || p.id === part.id); // Check if the current part is the last incorrect one
+                    .every((p) => selectedParts[p.id] || p.id === part.id);
 
                 if (allIncorrectFound) {
                     if (currentArticleIndex === ARTICLES.length - 1) {
-                        // All levels completed, end the game
                         endGame();
                     } else {
-                        // Move to the next level
                         setCurrentArticleIndex((prev) => prev + 1);
                         setCurrentLevel((prev) => prev + 1);
-                        setSelectedParts({}); // Reset selectedParts when moving to the next level
+                        setSelectedParts({});
                     }
                 }
 
@@ -277,24 +271,22 @@ export default function SkewdleGame() {
         ]
     );
 
-    
-
     return (
         <div
-            className={`min-h-screen bg-[#1a1b26] text-gray-200 p-6 font-sans ${
+            className={`min-h-screen bg-ft-background text-ft-text p-6 font-sans ${
                 incorrectSelection ? 'animate-shake' : ''
             }`}
         >
             <div className="max-w-4xl mx-auto mt-2">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-6xl font-bold text-[#7aa2f7] font-serif transition duration-500 hover:transform hover:rotate-6">
+                    <h1 className="text-6xl font-bold text-ft-black font-serif">
                         Skewdle
                     </h1>
                     <div className="flex gap-4">
                         <button
                             onClick={() => setSoundEnabled(!soundEnabled)}
-                            className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                            className="p-2 rounded-full hover:bg-ft-background transition-colors text-ft-gray"
                         >
                             {soundEnabled ? (
                                 <Volume2 size={24} />
@@ -304,9 +296,9 @@ export default function SkewdleGame() {
                         </button>
                         <Dialog>
                             <DialogTrigger>
-                                <HelpCircle size={24} />
+                                <HelpCircle size={24} className="text-ft-gray" />
                             </DialogTrigger>
-                            <DialogContent className="bg-[#1f2335] text-gray-200 border-gray-700">
+                            <DialogContent className="bg-ft-background text-ft-text border-ft-gray">
                                 <DialogHeader>
                                     <DialogTitle>How to Play</DialogTitle>
                                 </DialogHeader>

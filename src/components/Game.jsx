@@ -2,16 +2,14 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { CheckCircle, X } from 'lucide-react';
 import { Progress } from 'src/components/ui/progress';
 import { Card, CardContent, CardHeader } from 'src/components/ui/card';
-import { ArticleText } from './ArticleText'; // Import ArticleText
+import { ArticleText } from './ArticleText';
 
-// Game difficulty settings
 const DIFFICULTY_SETTINGS = {
     easy: { time: 240, penaltyTime: 10, scoreMultiplier: 1 },
     medium: { time: 180, penaltyTime: 20, scoreMultiplier: 1.5 },
     hard: { time: 120, penaltyTime: 30, scoreMultiplier: 2 },
 };
 
-// Sample articles database - in real app, this would be much larger
 const ARTICLES = [
     {
         id: 1,
@@ -83,41 +81,45 @@ export function Game({
         gameStatus == 'ended' ? 100 : ((currentLevel - 1) / totalLevels) * 100;
 
     return (
-        <Card className="mb-6 bg-[#1f2335] border-gray-700">
+        <Card className="mb-6 bg-ft-background border border-ft-gray/20">
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div className="space-y-2">
-                        <div className="text-2xl font-bold">
+                        <div className="text-2xl font-bold text-ft-black font-serif">
                             Level {currentLevel}
                         </div>
-                        <div className="text-sm text-gray-400">
+                        <div className="text-sm text-ft-gray font-serif">
                             Category: {ARTICLES[currentLevel - 1]?.category}
                         </div>
                     </div>
                     <div className="text-right">
-                        <div className="text-3xl font-bold">
+                        <div className="text-3xl font-bold text-ft-black font-serif">
                             {Math.floor(
                                 score *
                                     DIFFICULTY_SETTINGS[difficulty]
                                         .scoreMultiplier
                             )}
                         </div>
-                        <div className="text-sm text-gray-400">points</div>
+                        <div className="text-sm text-ft-gray font-serif">points</div>
                     </div>
                 </div>
             </CardHeader>
             <CardContent>
                 {/* Timer */}
                 <div className="mb-4">
-                    <Progress value={progress} className="bg-gray-700" />
-                    <div className="text-center mt-2">
+                    <Progress 
+                        value={progress} 
+                        className="bg-ft-gray/20" 
+                        indicatorClassName="bg-ft-navy"
+                    />
+                    <div className="text-center mt-2 text-ft-gray font-serif">
                         {Math.floor(timeLeft / 60)}:
                         {String(timeLeft % 60).padStart(2, '0')}
                     </div>
                 </div>
 
                 {/* Article */}
-                <div className="text-2xl leading-relaxed mb-6">
+                <div className="text-2xl leading-relaxed mb-6 text-ft-text font-serif">
                     <ArticleText
                         gameStatus={gameStatus}
                         articleParts={articleParts}
@@ -134,10 +136,10 @@ export function Game({
                                 <button
                                     key={diff}
                                     onClick={() => setDifficulty(diff)}
-                                    className={`px-4 py-2 rounded-lg ${
+                                    className={`px-4 py-2 rounded-lg font-serif ${
                                         difficulty === diff
-                                            ? 'bg-[#7aa2f7] text-gray-900'
-                                            : 'bg-gray-700 text-gray-200'
+                                            ? 'bg-ft-navy text-ft-white'
+                                            : 'bg-ft-gray/20 text-ft-text hover:bg-ft-gray/30'
                                     }`}
                                 >
                                     {diff.charAt(0).toUpperCase() +
@@ -147,7 +149,7 @@ export function Game({
                         </div>
                         <button
                             onClick={startGame}
-                            className="w-full py-3 bg-[#7aa2f7] text-gray-900 rounded-lg font-bold text-lg hover:bg-[#5d7bc5] transition-colors"
+                            className="w-full py-3 bg-ft-navy text-ft-white rounded-lg font-bold text-lg hover:bg-ft-navy/90 transition-colors font-serif"
                         >
                             Start Game
                         </button>

@@ -7,13 +7,19 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                nestadarkblue: {
-                    DEFAULT: '#0C304C',
-                },
+                ft: {
+                    background: '#FFF1E5',
+                    text: '#33302E',
+                    pink: '#FE5F95',
+                    navy: '#1A2B4C',
+                    black: '#000000',
+                    white: '#FFFFFF',
+                    gray: '#66605C'
+                }
             },
             fontFamily: {
-                sans: ['Roboto', ...defaultTheme.fontFamily.sans],
-                serif: ['Playfair Display', ...defaultTheme.fontFamily.serif],
+                sans: ['Georgia', ...defaultTheme.fontFamily.serif],
+                serif: ['Georgia', ...defaultTheme.fontFamily.serif],
             },
         },
     },

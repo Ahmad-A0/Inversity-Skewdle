@@ -4,15 +4,16 @@ import {
     CheckCircle,
     TimerReset,
     Trophy,
-    Star, Medal,
+    Star, 
+    Medal,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 
 export function Achievements({achievements}) {
     return (
-        <Card className="bg-[#1f2335] border-gray-700">
+        <Card className="bg-ft-background border border-ft-gray/20">
             <CardHeader>
-                <CardTitle>Achievements</CardTitle>
+                <CardTitle className="font-serif text-ft-black">Achievements</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
@@ -23,7 +24,7 @@ export function Achievements({achievements}) {
                             description: 'Complete your first game',
                             icon: (
                                 <PlayCircle
-                                    className="text-blue-400"
+                                    className="text-ft-navy"
                                     size={20}
                                 />
                             ),
@@ -35,7 +36,7 @@ export function Achievements({achievements}) {
                                 'Complete a game without any mistakes',
                             icon: (
                                 <CheckCircle
-                                    className="text-green-400"
+                                    className="text-ft-navy"
                                     size={20}
                                 />
                             ),
@@ -47,7 +48,7 @@ export function Achievements({achievements}) {
                                 'Complete a game with over 50% time remaining',
                             icon: (
                                 <TimerReset
-                                    className="text-yellow-400"
+                                    className="text-ft-navy"
                                     size={20}
                                 />
                             ),
@@ -59,7 +60,7 @@ export function Achievements({achievements}) {
                                 'Score over 100 points in a single game',
                             icon: (
                                 <Trophy
-                                    className="text-purple-400"
+                                    className="text-ft-navy"
                                     size={20}
                                 />
                             ),
@@ -71,7 +72,7 @@ export function Achievements({achievements}) {
                                 'Achieve a streak of 10 correct identifications',
                             icon: (
                                 <Star
-                                    className="text-amber-400"
+                                    className="text-ft-navy"
                                     size={20}
                                 />
                             ),
@@ -79,24 +80,24 @@ export function Achievements({achievements}) {
                     ].map((achievement) => (
                         <div
                             key={achievement.id}
-                            className={`flex items-center gap-3 p-2 rounded-lg ${
+                            className={`flex items-center gap-3 p-3 rounded-lg border ${
                                 achievements[achievement.id]
-                                    ? 'bg-gray-800'
-                                    : 'bg-gray-900 opacity-50'
+                                    ? 'bg-ft-background border-ft-navy/20'
+                                    : 'bg-ft-background border-ft-gray/20 opacity-50'
                             }`}
                         >
                             {achievement.icon}
                             <div>
-                                <div className="font-medium">
+                                <div className="font-medium font-serif text-ft-black">
                                     {achievement.name}
                                 </div>
-                                <div className="text-sm text-gray-400">
+                                <div className="text-sm text-ft-gray">
                                     {achievement.description}
                                 </div>
                             </div>
                             {achievements[achievement.id] && (
                                 <Medal
-                                    className="ml-auto text-amber-400"
+                                    className="ml-auto text-ft-navy"
                                     size={20}
                                 />
                             )}
@@ -105,5 +106,5 @@ export function Achievements({achievements}) {
                 </div>
             </CardContent>
         </Card>
-    )
+    );
 }

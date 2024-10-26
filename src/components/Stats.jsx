@@ -13,41 +13,41 @@ export function Stats({
     currentStreak,
 }) {
     return (
-        <Card className="bg-[#1f2335] border-gray-700">
+        <Card className="bg-ft-background border border-ft-gray/20">
             <CardHeader>
-                <CardTitle>Statistics</CardTitle>
+                <CardTitle className="font-serif text-ft-black">Statistics</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="grid grid-cols-2 gap-8">
                     <div>
-                        <div className="text-sm text-gray-400">Best Streak</div>
-                        <div className="text-3xl font-bold">{bestStreak}</div>
+                        <div className="text-sm text-ft-gray font-serif">Best Streak</div>
+                        <div className="text-3xl font-bold text-ft-black font-serif">{bestStreak}</div>
                     </div>
                     <div>
-                        <div className="text-sm text-gray-400">Games Played</div>
-                        <div className="text-3xl font-bold">
+                        <div className="text-sm text-ft-gray font-serif">Games Played</div>
+                        <div className="text-3xl font-bold text-ft-black font-serif">
                             {totalGamesPlayed}
                         </div>
                     </div>
                 </div>
-                <div className="mt-6">
-                    <div className="text-sm text-gray-400">High Scores</div>
-                    <div className="mt-2 space-y-2">
+                <div className="mt-8 border-t border-ft-gray/20 pt-6">
+                    <div className="text-sm text-ft-gray font-serif">High Scores</div>
+                    <div className="mt-3 space-y-3">
                         {Object.entries(highScores).map(([diff, score]) => (
                             <div
                                 key={diff}
-                                className="flex justify-between text-lg"
+                                className="flex justify-between text-lg font-serif"
                             >
-                                <span className="capitalize">{diff}:</span>
-                                <span className="font-bold">{score}</span>
+                                <span className="capitalize text-ft-text">{diff}:</span>
+                                <span className="font-bold text-ft-black">{score}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="mt-6">
-                    <div className="text-sm text-gray-400">Current Streak</div>
-                    <div className="text-3xl font-bold">{currentStreak}</div>
+                <div className="mt-8 border-t border-ft-gray/20 pt-6">
+                    <div className="text-sm text-ft-gray font-serif">Current Streak</div>
+                    <div className="text-3xl font-bold text-ft-black font-serif">{currentStreak}</div>
                 </div>
             </CardContent>
         </Card>
