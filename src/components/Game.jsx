@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import {
-    CheckCircle,
-    X,
-} from 'lucide-react';
+import { CheckCircle, X } from 'lucide-react';
 import { Progress } from 'src/components/ui/progress';
 import { Card, CardContent, CardHeader } from 'src/components/ui/card';
 import { ArticleText } from './ArticleText'; // Import ArticleText
@@ -75,26 +72,36 @@ export function Game({
     setDifficulty,
     startGame,
     handleTextSelection,
-    selectedParts = {}
+    selectedParts = {},
 }) {
     const articleParts = useMemo(() => {
         return parseArticleText(ARTICLES[currentLevel - 1]?.text || '');
     }, [currentLevel]);
 
     const totalLevels = ARTICLES.length;
-    const progress = (currentLevel / totalLevels) * 100;
-
+    const progress =
+        gameStatus == 'ended' ? 100 : ((currentLevel - 1) / totalLevels) * 100;
 
     return (
         <Card className="mb-6 bg-[#1f2335] border-gray-700">
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div className="space-y-2">
-                        <div className="text-2xl font-bold">Level {currentLevel}</div>
-                        <div className="text-sm text-gray-400">Category: {ARTICLES[currentLevel - 1]?.category}</div>
+                        <div className="text-2xl font-bold">
+                            Level {currentLevel}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                            Category: {ARTICLES[currentLevel - 1]?.category}
+                        </div>
                     </div>
                     <div className="text-right">
-                        <div className="text-3xl font-bold">{Math.floor(score * DIFFICULTY_SETTINGS[difficulty].scoreMultiplier)}</div>
+                        <div className="text-3xl font-bold">
+                            {Math.floor(
+                                score *
+                                    DIFFICULTY_SETTINGS[difficulty]
+                                        .scoreMultiplier
+                            )}
+                        </div>
                         <div className="text-sm text-gray-400">points</div>
                     </div>
                 </div>
@@ -103,12 +110,20 @@ export function Game({
                 {/* Timer */}
                 <div className="mb-4">
                     <Progress value={progress} className="bg-gray-700" />
-                    <div className="text-center mt-2">{Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}</div>
+                    <div className="text-center mt-2">
+                        {Math.floor(timeLeft / 60)}:
+                        {String(timeLeft % 60).padStart(2, '0')}
+                    </div>
                 </div>
 
                 {/* Article */}
                 <div className="text-2xl leading-relaxed mb-6">
-                    <ArticleText gameStatus={gameStatus} articleParts={articleParts} selectedParts={selectedParts} handleTextSelection={handleTextSelection} />
+                    <ArticleText
+                        gameStatus={gameStatus}
+                        articleParts={articleParts}
+                        selectedParts={selectedParts}
+                        handleTextSelection={handleTextSelection}
+                    />
                 </div>
 
                 {/* Game Controls */}
@@ -116,12 +131,26 @@ export function Game({
                     <div className="space-y-4">
                         <div className="flex justify-center gap-4">
                             {Object.keys(DIFFICULTY_SETTINGS).map((diff) => (
-                                <button key={diff} onClick={() => setDifficulty(diff)} className={`px-4 py-2 rounded-lg ${difficulty === diff ? 'bg-[#7aa2f7] text-gray-900' : 'bg-gray-700 text-gray-200'}`}>
-                                    {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                                <button
+                                    key={diff}
+                                    onClick={() => setDifficulty(diff)}
+                                    className={`px-4 py-2 rounded-lg ${
+                                        difficulty === diff
+                                            ? 'bg-[#7aa2f7] text-gray-900'
+                                            : 'bg-gray-700 text-gray-200'
+                                    }`}
+                                >
+                                    {diff.charAt(0).toUpperCase() +
+                                        diff.slice(1)}
                                 </button>
                             ))}
                         </div>
-                        <button onClick={startGame} className="w-full py-3 bg-[#7aa2f7] text-gray-900 rounded-lg font-bold text-lg hover:bg-[#5d7bc5] transition-colors">Start Game</button>
+                        <button
+                            onClick={startGame}
+                            className="w-full py-3 bg-[#7aa2f7] text-gray-900 rounded-lg font-bold text-lg hover:bg-[#5d7bc5] transition-colors"
+                        >
+                            Start Game
+                        </button>
                     </div>
                 )}
             </CardContent>

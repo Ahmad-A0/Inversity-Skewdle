@@ -285,7 +285,7 @@ export default function SkewdleGame() {
                 incorrectSelection ? 'animate-shake' : ''
             }`}
         >
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto mt-2">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-6xl font-bold text-[#7aa2f7] font-serif transition duration-500 hover:transform hover:rotate-6">

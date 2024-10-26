@@ -133,3 +133,11 @@ code {
     box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
   }
 }
+
+.bg-secondary {
+    background-color: #6c757d;
+}
+
+.bg-primary {
+    background-color: #7aa2f7;
+}
