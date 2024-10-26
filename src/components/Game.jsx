@@ -9,6 +9,7 @@ const DIFFICULTY_SETTINGS = {
     easy: { time: 240, penaltyTime: 10, scoreMultiplier: 1 },
     medium: { time: 180, penaltyTime: 20, scoreMultiplier: 1.5 },
     hard: { time: 120, penaltyTime: 30, scoreMultiplier: 2 },
+    flawless: { time: 100, penaltyTime: 100, scoreMultiplier: 3 },
 };
 
 // Sample articles database - in real app, this would be much larger

@@ -13,6 +13,7 @@ const DIFFICULTY_SETTINGS = {
     easy: { time: 240, penaltyTime: 10, scoreMultiplier: 1 },
     medium: { time: 180, penaltyTime: 20, scoreMultiplier: 1.5 },
     hard: { time: 120, penaltyTime: 30, scoreMultiplier: 2 },
+    flawless: { time: 100, penaltyTime: 100, scoreMultiplier: 3 },
 };
 
 export function GameOverDialog({
@@ -31,7 +32,10 @@ export function GameOverDialog({
         <Dialog open={gameStatus === 'ended'}>
             <DialogContent className="bg-[#1f2335] text-gray-200 border-gray-700">
                 <DialogHeader>
-                    <DialogTitle aria-label="Game Over Dialog" className="text-2xl font-bold text-center">
+                    <DialogTitle
+                        aria-label="Game Over Dialog"
+                        className="text-2xl font-bold text-center"
+                    >
                         Game Over!
                     </DialogTitle>
                 </DialogHeader>
@@ -99,7 +103,10 @@ export function GameOverDialog({
                             >
                                 <div className="flex items-center justify-between">
                                     <span>{article.title}</span>
-                                    <ExternalLink size={16} className="text-gray-400" />
+                                    <ExternalLink
+                                        size={16}
+                                        className="text-gray-400"
+                                    />
                                 </div>
                             </a>
                         ))}
