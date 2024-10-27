@@ -75,6 +75,3 @@ The library fetches article text from the FT's backend and then uses OpenAI's GP
 * Uses fetch to fetch article text from the FT's backend
 * Uses OpenAI's chat.completions.create method to generate modified article text
 
-## License
-
-The game is licensed under the MIT License. See the LICENSE file for more information.
