@@ -9,11 +9,11 @@ import { Trophy, Medal } from 'lucide-react';
 
 // Placeholder leaderboard data
 const LEADERBOARD_DATA = [
-    { username: "SkewdleMaster", score: 15420, rank: 1 },
-    { username: "NewsDetective", score: 12850, rank: 2 },
+    { username: "Skewdoodler", score: 15420, rank: 1 },
+    { username: "Falseh00d", score: 12850, rank: 2 },
     { username: "FactChecker99", score: 11200, rank: 3 },
-    { username: "TruthSeeker", score: 9750, rank: 4 },
-    { username: "ArticleExpert", score: 8900, rank: 5 },
+    { username: "MythBusterBubba", score: 9750, rank: 4 },
+    { username: "FibsMcGee", score: 8900, rank: 5 },
 ];
 
 export function Leaderboard() {
